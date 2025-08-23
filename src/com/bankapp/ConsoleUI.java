@@ -27,7 +27,7 @@ public class ConsoleUI {
 				case "0" -> running = false;
 				default -> System.out.println("Unknown Choice");
 				}
-			} catch (IllegalArgumentException | NoSuchElementException e) {
+			} catch (IllegalArgumentException | NoSuchElementException | IllegalStateException e) {
 				System.out.println("Error: " + e.getMessage());
 			} catch (Exception e) {
 				System.out.println("Unexpected error: " + e);
