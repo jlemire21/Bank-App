@@ -96,8 +96,24 @@ public class ConsoleUI {
 	}
 	
 	private long promptId(String label) {
-		System.out.print(label);
-		return Long.parseLong(in.nextLine().trim());
+		while (true) {
+			System.out.print(label);
+			String rawId = in.nextLine().trim();
+			try {
+				long id = Long.parseLong(rawId);
+				if (id <= 0) {
+					System.out.println("Please enter a positive whole number.");
+					continue;
+				}
+				if (service.findById(id).isPresent()) {
+					return id;
+				} else {
+					System.out.println("Account not found. Please try again.");
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid number. Try again.");
+			}
+		}
 	}
 	
 	private double promptAmount(String label) {
