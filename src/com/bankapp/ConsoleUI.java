@@ -37,7 +37,7 @@ public class ConsoleUI {
 	}
 	
 	private void printMenu() {
-		System.out.println("""
+		System.out.print("""
 				----------------------
 				1) Open Account
 				2) Deposit
@@ -46,7 +46,7 @@ public class ConsoleUI {
 				5) List Accounts
 				6) Show Account
 				0) Exit
-				Choose: """);
+				Choose:  """);
 	}
 	
 	private void openAccount() {
@@ -117,9 +117,23 @@ public class ConsoleUI {
 	}
 	
 	private double promptAmount(String label) {
-		System.out.print(label);
-		double amt = Double.parseDouble(in.nextLine().trim());
-		if (amt <= 0) throw new IllegalArgumentException("Amount must be greater than 0");
-		return amt;
+		while (true) {
+			System.out.print(label);
+			String rawAmount = in.nextLine().trim();
+			try {
+				double amount = Double.parseDouble(rawAmount);
+				if (!Double.isFinite(amount)) {
+					System.out.println("Amount must be a finite number.");
+					continue;
+				}
+				if (amount <= 0) {
+					System.out.println("Please enter a positive amount.");
+					continue;
+				}
+				return amount;
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid amount (e.g., 12.50).");
+			}
+		}
 	}
 }
